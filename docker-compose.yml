@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  webproxy:
+    image: hugotxr/nginx-custom:latest
+    container_name: webproxy
+    ports:
+      - "8080:8080"
+    depends_on:
+      - webserver
+    networks:
+      - wordpress
+
+  webserver:
+    image: wordpress:latest
+    container_name: webserver
+    volumes:
+      - app:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_USER: user
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_NAME: wordpress
+    networks:
+      - wordpress
+
+  database:
+    image: mysql:latest
+    container_name: database
+    volumes:
+      - my:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    networks:
+      - wordpress
+
+networks:
+  wordpress:
+    driver: bridge
+
+volumes:
+  app:
+  my:
