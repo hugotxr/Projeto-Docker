@@ -27,3 +27,5 @@ O objetivo é provisionar uma infraestrutura completa via código (IaC), onde:
 1-Clone esse repositorio
 2-Vagrant up
 3-acesse no navegador http://192.168.56.154:8080
+4-vagrant ssh
+5-sudo docker exec -it webproxy curl -I localhost:8080
